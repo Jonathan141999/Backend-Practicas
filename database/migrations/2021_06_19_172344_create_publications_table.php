@@ -24,16 +24,18 @@ class CreatePublicationsTable extends Migration
             $table->enum('type',['public','private']);
             $table->string('details');
             $table->string('image');
-            $table->timestamps();
-        });
-        Schema::create('publication_user', function (Blueprint $table) {
-            $table->unsignedBigInteger('publication_id');
-            $table->foreign('publication_id')->references('id')->on('publications')->onDelete('restrict');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict');
             $table->timestamps();
         });
-
+        //Schema::create('publication_user', function (Blueprint $table) {
+          //  $table->unsignedBigInteger('publication_id');
+           // $table->foreign('publication_id')->references('id')->on('publications')->onDelete('restrict');
+            //$table->unsignedBigInteger('user_id');
+            //$table->foreign('user_id')->references('id')->on('users')->onDelete('restrict');
+            //$table->timestamps();
+        //});
+        
     }
 
     /**
@@ -43,9 +45,9 @@ class CreatePublicationsTable extends Migration
      */
     public function down()
     {
-        Schema::disableForeignKeyConstraints();
-        Schema::dropIfExists('publication_user');
-        Schema::dropIfExists('publications');
-        Schema::enableForeignKeyConstraints();
+        Schema::table('publications', function (Blueprint $table) {
+            $table->dropForeign(['user_id']);
+        });
+
     }
 }

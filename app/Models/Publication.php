@@ -7,20 +7,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class Publication extends Model
 {
-    protected $fillable = ['name','location','phone','email','hour','type','details','image','category_id'];
+    protected $fillable = ['name','location','phone','email','hour','type','details','image','category_id','user_id'];
 
     //Relacion de muchos a muchos
     public function users()
     {
-        return $this->belongsToMany('App\Models\User')->withTimestamps();
+        return $this->belongsTo('App\Models\User');
     }
     //Un categoria tine varias publicaiones
     public function categories()
     {
         return $this->hasMany('App\Models\Category');
     }
-    public function detail()
+    public function postulation()
     {
-        return $this->hasMany('App\Models\DetailRequest');
+        return $this->hasMany('App\Models\Postulation');
     }
 }

@@ -19,33 +19,22 @@ class PostulationsTableSeeder extends Seeder
     public function run()
     {
     Postulation::truncate();
-        DetailsPostulation::truncate();
         $faker = \Faker\Factory::create();
         $users = User::all();
         $requests = Publication::all();
-
         foreach ($users as $user){
             JWTAuth::attempt(['email' => $user->email, 'password' => '123123']);
             Postulation::create([
                 'languages' => $faker->sentence,
                 'type' => $faker->randomElement(['online','face']),
-                'work_experience'=>$faker->paragraph,
+                'work_experience'=>$faker->sentence,
                 'career'=>$faker->sentence,
-                'category_id'=>$faker->numberBetween(1,6),
-                'status' => $faker->randomElement(['new','pending','accepted','rejected'])
-                //'user_id' => $user->id,
+                //'category_id'=>$faker->numberBetween(1,6),
+                'status' => $faker->randomElement(['new','pending','accepted','rejected']),
+                'user_id' => $user->id,
+                'publication_id'=> $faker->numberBetween(1,5),
             ]);
         }
-
-$requests = Postulation::all();
-
-foreach ($requests as $request) {
-    for ($i = 0; $i < 5; $i++) {
-        DetailsPostulation::create([
-            'postulation_id' => $request->id,
-            'publication_id' => $faker->numberBetween(1, 7),
-        ]);
     }
 }
-}
-}
+

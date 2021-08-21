@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class Postulation extends Model
 {
-    protected $fillable = ['languages','type','work_experience','career','status','category_id'];
+    protected $fillable = ['languages','type','work_experience','career','status','category_id', 'publication_id'];
     public static function boot()
     {
         parent::boot();
@@ -20,8 +20,9 @@ class Postulation extends Model
     {
         return $this->belongsTo('App\Models\User');
     }
-    public function detail()
+
+    public function publication()
     {
-        return $this->hasMany('App\Models\DetailsPostulation');
+        return $this->hasMany('App\Models\Detail');
     }
 }

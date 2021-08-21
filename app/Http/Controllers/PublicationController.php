@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Publication;
 use App\Http\Resources\Publication as PublicationResource;
 use App\Http\Resources\PublicationCollection;
+use App\Models\Category;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class PublicationController extends Controller
 {
@@ -20,16 +23,98 @@ class PublicationController extends Controller
     ];
     public function index()
     {
-        return new PublicationCollection(Publication::paginate(5));
+        $user = Auth::user();
+        $publications = Publication::where('user_id',$user->id)->get();
+        foreach ($publications as $publication) {
+            $category = Category::select('name')
+                ->where("id",$publication->category_id)->first();
+
+            $publication_list[] = array(
+                'id' => $publication->id,
+                'name' => $publication->name,
+                'email' => $publication->email,
+                'hour' => $publication->hour,
+                'location' => $publication->location,
+                'type' => $publication->type,
+                'phone' => $publication->phone,
+                'image'=> $publication->image,
+                'details'=>$publication->details,
+                'created_at'=> $publication->created_at,
+                'category' => $category->name,
+                'user_name'=> $user->name.' '.$user->last_name,
+            );
+        }
+        return response()->json(['data' => $publication_list],200);
+    }
+
+    public function forstudents(){
+
+        $publications = Publication::all();
+        foreach ($publications as $publication) {
+            $category = Category::select('name')
+                ->where("id",$publication->category_id)->first();
+            $user = User::select('name','last_name')
+                ->where('id',$publication->user_id)->first();
+
+            $publication_list[] = array(
+                'id' => $publication->id,
+                'name' => $publication->name,
+                'email' => $publication->email,
+                'hour' => $publication->hour,
+                'location' => $publication->location,
+                'type' => $publication->type,
+                'phone' => $publication->phone,
+                'image'=> $publication->image,
+                'details'=>$publication->details,
+                'created_at'=> $publication->created_at,
+                'category' => $category->name,
+                'user_name'  => $user->name.' '.$user->last_name,
+            );
+        }
+        return response()->json(['data' => $publication_list],200);
     }
     public function show(Publication $publication)
     {
-        return response()->json(new PublicationResource($publication),200);
+        $publications = Publication::where('id', $publication->id)->first();
+        $category = Category::select('name')
+                ->where("id",$publication->category_id)->first();
+        $user = User::select('name','last_name')
+            ->where('id',$publication->user_id)->first();
+
+        $publications->category = $category->name;
+        $publications->user = $user->name.' '.$user->last_name;
+        return  response()->json($publications,200);
     }
-    public function searchPublication($name)
+    public function searchPublication($category)
     {
-        $publications = Publication::search("%$name*%")->get();
-        return response()->json(new PublicationCollection($publications), 200);
+        $publications = Publication::where("category_id",$category)->get();
+        if (count($publications) >0 ){
+            foreach ($publications as $publication) {
+                $categoria = Category::select('name')
+                    ->where("id",$publication->category_id)->first();
+                $user = User::select('name','last_name')
+                    ->where('id',$publication->user_id)->first();
+    
+                $publication_list[] = array(
+                    'id' => $publication->id,
+                    'name' => $publication->name,
+                    'email' => $publication->email,
+                    'hour' => $publication->hour,
+                    'location' => $publication->location,
+                    'type' => $publication->type,
+                    'phone' => $publication->phone,
+                    'image'=> $publication->image,
+                    'details'=>$publication->details,
+                    'created_at'=> $publication->created_at,
+                    'category' => $categoria->name,
+                    'user_name'  => $user->name.' '.$user->last_name,
+                );
+            }
+            return response()->json(['data' => $publication_list],200);
+        }else{
+            return response()->json(['data' => $publications],200);
+        }
+        
     }
     public function image(Publication $publication)
     {

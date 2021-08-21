@@ -24,11 +24,12 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     //Logout
     Route::get('user', 'App\Http\Controllers\UserController@getAuthenticatedUser');
     Route::post('logout', 'App\Http\Controllers\UserController@logout');
-    //Route::post('users/{user}', 'App\Http\Controllers\UserController@logout');
+    Route::put('users/{user}', 'App\Http\Controllers\UserController@update');
 
     //Rutas para Publicaciones
     Route::get('publications', 'App\Http\Controllers\PublicationController@index');
-    Route::get('publication/{name}','App\Http\Controllers\PublicationController@searchPublication');
+    Route::get('publications/forstudents', 'App\Http\Controllers\PublicationController@forstudents');
+    Route::get('publication/{category}','App\Http\Controllers\PublicationController@searchPublication');
     Route::get('publications/{publication}', 'App\Http\Controllers\PublicationController@show');
     Route::post('publications', 'App\Http\Controllers\PublicationController@store');
     Route::put('publications/{publication}', 'App\Http\Controllers\PublicationController@update');
@@ -37,18 +38,14 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     //Postulation
     Route::get('postulations', 'App\Http\Controllers\PostulationController@index');
     Route::get('postulations/{apostulation}', 'App\Http\Controllers\PostulationController@show');
+    Route::get('postulations/detail/{publication}', 'App\Http\Controllers\PostulationController@detail');
     Route::get('postulation/user', 'App\Http\Controllers\PostulationController@requestsByUser');
+
     //verificar este mañana
     Route::post('postulations', 'App\Http\Controllers\PostulationController@store');
     Route::put('postulations/{apostulation}', 'App\Http\Controllers\PostulationController@update');
     Route::delete('postulations/{request}', 'App\Http\Controllers\PostulationController@delete');
     Route::put('postulations/status/{arequest}', 'App\Http\Controllers\PostulationController@updatestatus');
-
-    //Detalles de Postulacion
-
-    Route::get('postulations/{request}/details', 'App\Http\Controllers\DetailPostulationController@index');
-    Route::get('postulations/{request}/details/{detail}', 'App\Http\Controllers\DetailPostulationController@show');
-    Route::post('postulations/{arequest}/details', 'App\Http\Controllers\DetailPostulationController@store');
 
     //Rutas para Categorias
 

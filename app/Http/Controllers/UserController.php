@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Http\Resources\User as UserResource;
 use App\Http\Resources\UserCollection;
+use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 
@@ -158,9 +159,9 @@ class UserController extends Controller
         $user = User::create($request->all());
         return response()->json($user,201);
     }
+
     public function update(Request $request, User $user)
     {
-        $this->authorize('update',$user);
         $request->validate([
             'phone' => 'required|string',
             'email' => 'required|string',

@@ -20,7 +20,7 @@ class PublicationsTableSeeder extends Seeder
         // Crear publicaiones ficticias
         $type=['public','private'];
         //$image_name=$faker->image('public/storage',400,250,null,false);
-        for ($i = 0; $i < 3; $i++) {
+        for ($i = 0; $i < 5; $i++) {
             Publication::create([
                 'name' => $faker->sentence,
                 'location' => $faker->sentence,
@@ -32,6 +32,7 @@ class PublicationsTableSeeder extends Seeder
                 'details'=>$faker->sentence,
                 'image' => $faker->imageUrl(400, 300, null, false),
                 'category_id'=>$faker->numberBetween(1,6),
+                'user_id'=>$faker->numberBetween(1,6),
             ]);
         }
     }
