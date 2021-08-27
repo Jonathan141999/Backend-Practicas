@@ -68,7 +68,7 @@ class PublicationController extends Controller
                 'details'=>$publication->details,
                 'created_at'=> $publication->created_at,
                 'category' => $category->name,
-                'user_name'  => $user->name.' '.$user->last_name,
+                //'user_name'  => $user->name.' '.$user->last_name,
             );
         }
         return response()->json(['data' => $publication_list],200);
@@ -94,7 +94,7 @@ class PublicationController extends Controller
                     ->where("id",$publication->category_id)->first();
                 $user = User::select('name','last_name')
                     ->where('id',$publication->user_id)->first();
-    
+
                 $publication_list[] = array(
                     'id' => $publication->id,
                     'name' => $publication->name,
@@ -114,7 +114,7 @@ class PublicationController extends Controller
         }else{
             return response()->json(['data' => $publications],200);
         }
-        
+
     }
     public function image(Publication $publication)
     {
