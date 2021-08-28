@@ -19,6 +19,9 @@ use Illuminate\Support\Facades\Route;
 //Rutas publicas
 Route::post('register', 'App\Http\Controllers\UserController@register');
 Route::post('login', 'App\Http\Controllers\UserController@authenticate');
+//verificar correo
+Route::name('verify')->get('users/verify/{code}', 'App\Http\Controllers\UserController@verify');
+Route::name('resent')->get('users/{user}/resend', 'App\Http\Controllers\UserController@resend');
 //Route::post('users/create', 'App\Http\Controllers\UserController@create');
 Route::group(['middleware' => ['jwt.verify']], function() {
     //Logout

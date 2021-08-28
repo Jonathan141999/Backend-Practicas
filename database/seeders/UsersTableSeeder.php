@@ -30,6 +30,8 @@ class UsersTableSeeder extends Seeder
             'email' => 'admin@prueba.com',
             'password' => $password,
             'direction'=> 'Tumbaco',
+            'active' => true,
+            'activation_code' => ' ',
             'role'=>'ROLE_ADMIN',
             'description'=>'Tecnología Superior en Desarrollo de Software',
         ]);
@@ -43,6 +45,7 @@ class UsersTableSeeder extends Seeder
                 'email' => $faker->email,
                 'password' => $password,
                 'direction'=>$faker->sentence,
+                'activation_code'=> $faker->slug,
                 'role'=>'ROLE_BUSINESS',
                 'description'=>$faker->sentence,
             ]);

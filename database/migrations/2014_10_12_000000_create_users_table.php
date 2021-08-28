@@ -23,6 +23,8 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('direction');
             //$table->string('role');
+            $table->boolean('active')->default(false);
+            $table->string('activation_code');
             $table->enum('role',['ROLE_ADMIN','ROLE_BUSINESS','ROLE_STUDENT']);
             $table->string('description');
             $table->rememberToken();
