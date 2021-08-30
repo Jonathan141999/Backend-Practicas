@@ -25,6 +25,7 @@ class PublicationController extends Controller
     {
         $user = Auth::user();
         $publications = Publication::where('user_id',$user->id)->get();
+        if (count($publications) >0 ){
         foreach ($publications as $publication) {
             $category = Category::select('name')
                 ->where("id",$publication->category_id)->first();
@@ -45,11 +46,15 @@ class PublicationController extends Controller
             );
         }
         return response()->json(['data' => $publication_list],200);
+    }else{
+            return response()->json(['data' => $publications],200);
+        }
     }
 
     public function forstudents(){
 
         $publications = Publication::all();
+        if (count($publications) >0 ){
         foreach ($publications as $publication) {
             $category = Category::select('name')
                 ->where("id",$publication->category_id)->first();
@@ -72,6 +77,9 @@ class PublicationController extends Controller
             );
         }
         return response()->json(['data' => $publication_list],200);
+    }else{
+            return response()->json(['data' => $publications],200);
+        }
     }
     public function show(Publication $publication)
     {
@@ -124,6 +132,7 @@ class PublicationController extends Controller
     public function store(Request $request)
     {
         $this->authorize('create', Publication::class);
+        //$user = Auth::user()->publications()->create($request->except('_token'));
         $request->validate([
             'name' => 'required|string',
             'location' => 'required|string',

@@ -60,6 +60,7 @@ class PostulationController extends Controller
     {
         $user = Auth::user();
         $requests = aPostulation::where('user_id', $user->id)->get();
+        if (count($requests) >0 ){
         foreach ($requests as $request) {
             $publication = Publication::select('name')
                 ->where("id", $request->publication_id)->first();
@@ -77,6 +78,9 @@ class PostulationController extends Controller
             );
         }
         return response()->json(["data" => $publication_list], 200);
+    }else{
+            return response()->json(['data' => $requests],200);
+        }
     }
 
     public function store(Request $request)
