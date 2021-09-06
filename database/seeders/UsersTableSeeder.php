@@ -25,7 +25,7 @@ class UsersTableSeeder extends Seeder
         $password = Hash::make('123123');
         User::create([
             'name' => 'Jonathan',
-            'last_name'=>'alquinga',
+            'last_name'=>'Alquinga',
             'phone'=>'0983868358',
             'email' => 'admin@prueba.com',
             'password' => $password,
@@ -37,7 +37,7 @@ class UsersTableSeeder extends Seeder
         ]);
         // Generar algunos usuarios para nuestra aplicacion
 
-        for ($i = 0; $i < 4; $i++) {
+        /*for ($i = 0; $i < 4; $i++) {
             $user = User::create([
                 'name' => $faker->name,
                 'last_name'=> $faker->lastName,
@@ -59,6 +59,6 @@ class UsersTableSeeder extends Seeder
                     ), $faker->numberBetween(1, 3), false
                 )
             );
-        }
+        }*/
     }
 }
