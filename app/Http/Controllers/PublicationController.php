@@ -134,7 +134,7 @@ class PublicationController extends Controller
         $this->authorize('create', Publication::class);
         //$user = Auth::user()->publications()->create($request->except('_token'));
         $request->validate([
-            'name' => 'required|string',
+            'name' => 'required|string|unique:publications',
             'location' => 'required|string',
             'phone' => 'required|string',
             'email' => 'required|string',
